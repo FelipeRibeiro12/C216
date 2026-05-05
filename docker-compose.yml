@@ -1,7 +1,15 @@
-version: "3"
+version: "3.8"
 services:
-  backend:
+  api:
     build: ./1 - python
-    restart: always
     ports:
       - "8000:8000"
+    volumes:
+      - ./1 - python:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  tests:
+    build: ./1 - python
+    volumes:
+      - ./1 - python:/app
+    command: pytest -v tests/test_alunos.py

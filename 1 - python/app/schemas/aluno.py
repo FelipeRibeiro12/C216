@@ -17,3 +17,7 @@ class AlunoResponse(BaseModel):
     email: EmailStr
     curso: str
     matricula: int
+
+    model_config = {
+        "from_attributes": True
+    }

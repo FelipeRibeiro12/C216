@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Felipe</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>Acesso ao Sistema</h1>
+    </header>
+    <section>
+      <h2>Faça seu Login</h2>
+      <p>Acesse com o e-mail gerado no cadastro.</p>
+
+      {% if error %}
+      <p style="color: red; font-weight: bold">{{ error }}</p>
+      {% endif %}
+
+      <form method="POST" action="/login" class="login-form">
+        <div class="form-group">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="nome.sobrenome@curso.inatel.br"
+            required
+          />
+        </div>
+        <button type="submit" class="btn">Entrar</button>
+        <br /><br />
+        <a
+          href="/register"
+          class="btn"
+          style="
+            background-color: #7f8c8d;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            box-sizing: border-box;
+          "
+          >Cadastrar Nova Conta</a
+        >
+      </form>
+    </section>
+  </body>
+</html>

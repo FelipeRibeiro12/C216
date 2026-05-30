@@ -1,37 +1,28 @@
-version: "3.8"
 services:
-  db:
-    image: postgres:15
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=alunos_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  api:
-    build: ./1 - python
+  backend:
+    build: ./backend
     ports:
       - "8000:8000"
-    volumes:
-      - ./1 - python:/app
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/alunos_db
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+      - PGURL=postgres://postgres:postgres@db:5432/professores
+      - INIT_SQL=db/init.sql
     depends_on:
       - db
 
-  tests:
-    build: ./1 - python
-    volumes:
-      - ./1 - python:/app
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/alunos_db
-    command: pytest -v tests/test_alunos.py
-    depends_on:
-      - db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: professores
 
-volumes:
-  postgres_data:
+  frontend:
+    build: ./frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
